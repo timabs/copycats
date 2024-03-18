@@ -1,7 +1,29 @@
 import React, { useState } from "react";
 
 export default function Options() {
-  const [options, setOptions] = useState(["1", "2", "3", "4", "5"]);
+  const [options, setOptions] = useState([
+    <img
+      src="/cat1.jpg"
+      alt="First cat option"
+      className="object-cover h-full w-full"
+    ></img>,
+    <img
+      src="/cat2.jpg"
+      alt="2nd cat option"
+      className="object-cover h-full w-full"
+    ></img>,
+    <img src="" alt="Add your own" className="object-contain h-full"></img>,
+    <img
+      src="/cat3.jpg"
+      alt="3rd cat option"
+      className="object-cover h-full w-full"
+    ></img>,
+    <img
+      src="/cat4.jpg"
+      alt="4th cat option"
+      className="object-cover h-full w-full"
+    ></img>,
+  ]);
   const scrollRight = () => {
     const firstElement = options.shift();
     setOptions([...options, firstElement]);
