@@ -8,8 +8,6 @@ export default function Options() {
     useContext(SelectionContext);
   const { setBlob, setBlobURL } = useContext(BlobContext);
   const handleImgUpload = (blobURL, blob) => {
-    console.log(blob);
-    console.log(blobURL);
     setBlobURL(blobURL);
     setBlob(blob);
   };
