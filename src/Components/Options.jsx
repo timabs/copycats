@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { SelectionContext } from "../Context/SelectionContext";
+import ImgUploader from "./ImageUploader";
 
 export default function Options() {
+  const { selected, setSelected, selectedIndex, setSelectedIndex } =
+    useContext(SelectionContext);
   const [options, setOptions] = useState([
     <img
       src="/cat1.jpg"
@@ -12,7 +16,10 @@ export default function Options() {
       alt="2nd cat option"
       className="object-cover h-full w-full"
     ></img>,
-    <img src="" alt="Add your own" className="object-contain h-full"></img>,
+    <div className="w-full h-full flex items-center justify-center text-center">
+      <ImgUploader />
+      Choose Your Own
+    </div>,
     <img
       src="/cat3.jpg"
       alt="3rd cat option"
@@ -24,30 +31,36 @@ export default function Options() {
       className="object-cover h-full w-full"
     ></img>,
   ]);
-  const scrollRight = () => {
-    const firstElement = options.shift();
-    setOptions([...options, firstElement]);
+
+  const handleSelect = (e, index) => {
+    if (e.target.parentNode === selected) {
+      setSelected(null);
+      setSelectedIndex(-1);
+    } else {
+      setSelected(e.target.parentNode);
+      setSelectedIndex(index);
+    }
+    if (selectedIndex === 2) {
+    }
   };
   return (
     <div className="h-fit flex items-center justify-center">
       <div className="border-black w-fit h-fit flex justify-center gap-4 pb-8 items-center">
-        <button>LEFT</button>
-        {options.map((item, index) => (
+        {options.map((img, index) => (
           <div
             key={index}
-            className={`slide border-blue-400 border-2 transition-all ${
-              index === 2 ? "w-36 h-44" : "w-28 h-40"
+            className={`slide transition-all w-28 h-40 cursor-pointer hover:scale-110 ${
+              index === 2 ? "bg-amber-100" : ""
+            } ${
+              index === selectedIndex
+                ? "border-2 border-blue-700 shadow-md shadow-blue-950"
+                : ""
             }`}
+            onClick={(e) => handleSelect(e, index)}
           >
-            {item}
+            {img}
           </div>
         ))}
-        <button onClick={() => scrollRight()}>RIGHT</button>
-        {/* <div className="slide border-blue-400 border-2 w-28 h-40">1</div>
-        <div className="slide border-blue-400 border-2 w-28 h-40">2</div>
-        <div className="slide border-blue-400 border-2 w-36 h-44">3</div>
-        <div className="slide border-blue-400 border-2 w-28 h-40">4</div>
-        <div className="slide border-blue-400 border-2 w-28 h-40">5</div> */}
       </div>
     </div>
   );
