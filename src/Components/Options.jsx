@@ -1,10 +1,18 @@
 import React, { useContext, useState } from "react";
 import { SelectionContext } from "../Context/SelectionContext";
 import ImgUploader from "./ImageUploader";
+import { BlobContext } from "../Context/BlobContext";
 
 export default function Options() {
   const { selected, setSelected, selectedIndex, setSelectedIndex } =
     useContext(SelectionContext);
+  const { setBlob, setBlobURL } = useContext(BlobContext);
+  const handleImgUpload = (blobURL, blob) => {
+    console.log(blob);
+    console.log(blobURL);
+    setBlobURL(blobURL);
+    setBlob(blob);
+  };
   const [options, setOptions] = useState([
     <img
       src="/cat1.jpg"
@@ -16,10 +24,10 @@ export default function Options() {
       alt="2nd cat option"
       className="object-cover h-full w-full"
     ></img>,
-    <div className="w-full h-full flex items-center justify-center text-center">
-      <ImgUploader />
+    <label className="w-full h-full flex items-center justify-center text-center cursor-pointer">
+      <ImgUploader tempImg={handleImgUpload} id="choose-cat" />
       Choose Your Own
-    </div>,
+    </label>,
     <img
       src="/cat3.jpg"
       alt="3rd cat option"
@@ -33,14 +41,13 @@ export default function Options() {
   ]);
 
   const handleSelect = (e, index) => {
-    if (e.target.parentNode === selected) {
+    const selection = e.target.parentNode;
+    if (selection === selected && selectedIndex !== 2) {
       setSelected(null);
       setSelectedIndex(-1);
     } else {
-      setSelected(e.target.parentNode);
+      setSelected(selection);
       setSelectedIndex(index);
-    }
-    if (selectedIndex === 2) {
     }
   };
   return (
