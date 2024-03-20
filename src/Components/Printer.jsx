@@ -23,7 +23,7 @@ export default function Printer({ results, setResults }) {
   };
   return (
     <div
-      className="h-1/6 flex items-center justify-center z-10"
+      className="h-1/6 flex items-center justify-center z-20"
       onClick={() => copy()}
     >
       <img
