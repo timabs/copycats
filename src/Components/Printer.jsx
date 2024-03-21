@@ -5,7 +5,7 @@ import gsap from "gsap";
 
 export default function Printer() {
   const { selected, selectedIndex } = useContext(SelectionContext);
-  const { blobURL } = useContext(BlobContext);
+  const { blob, blobURL } = useContext(BlobContext);
   const printerRef = useRef(null);
 
   const randomize = () => {
@@ -34,10 +34,22 @@ export default function Printer() {
       }
     );
   };
-
+  const copiedStyles = {
+    opacity: "0",
+    position: "absolute",
+    zIndex: "0",
+    objectFit: "cover",
+    flex: "0 0 auto",
+  };
+  const applyStyles = (stylesObj, element) => {
+    Object.keys(stylesObj).forEach((prop) => {
+      element.style[prop] = stylesObj[prop];
+    });
+  };
   const addCopyToDOM = (element) => {
     printerRef.current.parentNode.appendChild(element);
   };
+
   const copyExisting = () => {
     const imgToCopy = selected.children[0];
     const copiedImg = imgToCopy.cloneNode();
@@ -59,23 +71,11 @@ export default function Printer() {
     animatePrint(imgToCopy);
   };
 
-  const applyStyles = (stylesObj, element) => {
-    Object.keys(stylesObj).forEach((prop) => {
-      element.style[prop] = stylesObj[prop];
-    });
-  };
-  const copiedStyles = {
-    opacity: "0",
-    position: "absolute",
-    zIndex: "0",
-    objectFit: "cover",
-    flex: "0 0 auto",
-  };
   const copy = () => {
     if (selected && selectedIndex !== 2) {
       copyExisting();
     }
-    if (selected && selectedIndex === 2) {
+    if (blob && selectedIndex === 2) {
       copyCustom();
     }
   };
