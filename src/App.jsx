@@ -15,7 +15,6 @@ function App() {
           <Header />
           <Options />
           <Printer results={results} setResults={setResults} />
-          <Results results={results} />
         </div>
       </BlobProvider>
     </SelectionProvider>
