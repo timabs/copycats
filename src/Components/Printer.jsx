@@ -11,21 +11,41 @@ export default function Printer({ results, setResults }) {
   const randomize = () => {
     return Math.random() * 2 - 1;
   };
-
+  const getTranslateX = (element) => {
+    const compStyle = window.getComputedStyle(element);
+    const matrix = compStyle.transform;
+    return matrix[4];
+  };
+  // const getTranslateY = (element) => {
+  //   const compStyle = window.getComputedStyle(element);
+  //   const matrix = compStyle.transform;
+  //   return matrix[5];
+  // };
+  const getDuration = (maxWidth, translate) => {
+    return (2.25 / maxWidth) * Math.abs(translate);
+  };
   const animatePrint = (element) => {
-    const randomX = randomize();
-    const randomY = randomize();
+    const maxWidth = window.innerWidth - 300;
+    const maxHeight = window.innerHeight - 300;
+    const randomX = (randomize() * maxWidth) / 2;
+    const randomY = (randomize() * maxHeight) / 2;
     const { printerX, printerY } = printerRef.current.getBoundingClientRect();
     gsap.fromTo(
       element,
       { x: printerX, y: printerY, opacity: 0 },
       {
-        x: (randomX * window.innerWidth - 300) / 2,
-        y: (randomY * window.innerHeight - 300) / 2,
+        x: randomX,
+        y: randomY,
         opacity: 1,
-        duration: 1.5,
+        duration: getDuration(
+          maxWidth,
+          Math.abs(randomX) > Math.abs(randomY) ? randomX : randomY
+        ),
       }
     );
+    setTimeout(() => {
+      getTranslateX(element);
+    }, 1000);
   };
 
   const addCopyToDOM = (element) => {
@@ -64,6 +84,8 @@ export default function Printer({ results, setResults }) {
     objectFit: "cover",
   };
   const copy = () => {
+    console.log(`Printer:`);
+    console.log(printerRef.current.getBoundingClientRect());
     if (selected && selectedIndex !== 2) {
       copyExisting();
     }
