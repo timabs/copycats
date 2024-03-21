@@ -15,26 +15,26 @@ export default function Options() {
     <img
       src="/cat1.jpg"
       alt="First cat option"
-      className="object-cover h-full w-full"
+      className="object-cover h-full w-full z-20 relative"
     ></img>,
     <img
       src="/cat2.jpg"
       alt="2nd cat option"
-      className="object-cover h-full w-full"
+      className="object-cover h-full w-full z-20 relative"
     ></img>,
-    <label className="w-full h-full flex items-center justify-center text-center cursor-pointer">
+    <label className="w-full h-full flex items-center justify-center text-center cursor-pointer z-20 relative">
       <ImgUploader tempImg={handleImgUpload} id="choose-cat" />
       Choose Your Own
     </label>,
     <img
       src="/cat3.jpg"
       alt="3rd cat option"
-      className="object-cover h-full w-full"
+      className="object-cover h-full w-full z-20 relative"
     ></img>,
     <img
       src="/cat4.jpg"
       alt="4th cat option"
-      className="object-cover h-full w-full"
+      className="object-cover h-full w-full z-20 relative"
     ></img>,
   ]);
 
@@ -49,8 +49,8 @@ export default function Options() {
     }
   };
   return (
-    <div className="h-fit flex items-center justify-center">
-      <div className="border-black w-fit h-fit flex justify-center gap-4 pb-8 items-center">
+    <div className="h-fit flex items-center justify-center z-20">
+      <div className="border-black w-fit h-fit flex justify-center gap-4 pb-8 items-center z-20">
         {options.map((img, index) => (
           <div
             key={index}
