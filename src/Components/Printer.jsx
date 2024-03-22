@@ -12,7 +12,14 @@ export default function Printer() {
     return Math.random() * 2 - 1;
   };
   const getDuration = (maxWidth, translate) => {
-    return (2.25 / maxWidth) * Math.abs(translate);
+    //adding a minimum to dur really helps uniformize ( is that a word?)
+    //the animation of the copies shooting out
+    const dur = (2.25 / maxWidth) * Math.abs(translate);
+    if (dur < 0.5) {
+      return 0.5;
+    } else {
+      return dur;
+    }
   };
   const animatePrint = (element) => {
     const maxWidth = window.innerWidth - 150;
