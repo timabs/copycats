@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Pirouette";
+  src: url("../public/fonts/Pirouette_Cacahuete.ttf");
+}

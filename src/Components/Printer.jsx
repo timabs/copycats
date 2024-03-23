@@ -83,17 +83,18 @@ export default function Printer({ error, setError }) {
 
   const copy = () => {
     if (selected && selectedIndex !== 2) {
+      setError(false);
       for (let i = 1; i <= copyAmount; i++) {
         copyExisting();
       }
-    } else {
-      setError(true);
     }
     if (blob && selectedIndex === 2) {
+      setError(false);
       for (let i = 1; i <= copyAmount; i++) {
         copyCustom();
       }
-    } else {
+    }
+    if (!selected) {
       setError(true);
     }
   };

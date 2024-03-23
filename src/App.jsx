@@ -10,7 +10,7 @@ function App() {
   return (
     <SelectionProvider>
       <BlobProvider>
-        <div className="h-screen">
+        <div className="h-screen flex flex-col">
           <Header />
           <Options error={error} setError={setError} />
           <Printer error={error} setError={setError} />
