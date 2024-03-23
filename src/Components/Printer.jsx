@@ -1,12 +1,13 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { SelectionContext } from "../Context/SelectionContext";
 import { BlobContext } from "../Context/BlobContext";
 import gsap from "gsap";
 
-export default function Printer() {
+export default function Printer({ error, setError }) {
   const { selected, selectedIndex } = useContext(SelectionContext);
   const { blob, blobURL } = useContext(BlobContext);
   const printerRef = useRef(null);
+  const [copyAmount, setCopyAmount] = useState(1);
 
   const randomize = () => {
     return Math.random() * 2 - 1;
@@ -64,6 +65,7 @@ export default function Printer() {
     copiedImg.height = imgToCopy.height;
     copiedImg.classList.remove("w-full");
     copiedImg.classList.remove("h-full");
+    copiedImg.classList.add("printed-copy");
     applyStyles(copiedStyles, copiedImg);
     addCopyToDOM(copiedImg);
     animatePrint(copiedImg);
@@ -73,6 +75,7 @@ export default function Printer() {
     imgToCopy.src = blobURL;
     imgToCopy.style.width = `${selected.offsetWidth}px`;
     imgToCopy.style.height = `${selected.offsetHeight}px`;
+    imgToCopy.classList.add("printed-copy");
     applyStyles(copiedStyles, imgToCopy);
     addCopyToDOM(imgToCopy);
     animatePrint(imgToCopy);
@@ -80,21 +83,73 @@ export default function Printer() {
 
   const copy = () => {
     if (selected && selectedIndex !== 2) {
-      copyExisting();
+      for (let i = 1; i <= copyAmount; i++) {
+        copyExisting();
+      }
+    } else {
+      setError(true);
     }
     if (blob && selectedIndex === 2) {
-      copyCustom();
+      for (let i = 1; i <= copyAmount; i++) {
+        copyCustom();
+      }
+    } else {
+      setError(true);
     }
   };
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    setCopyAmount(e.target.value);
+  };
+
+  const clear = () => {
+    const copies = document.querySelectorAll(".printed-copy");
+    copies.forEach((copy) => {
+      copy.classList.add("transition-all");
+      copy.style.transitionDuration = "350ms";
+      copy.style.opacity = 0;
+      setTimeout(() => {
+        copy.remove();
+      }, 350);
+    });
+  };
   return (
-    <div className="h-1/6 flex items-center justify-center flex-grow-0 flex-shrink-0">
+    <div className="h-2/6 flex items-center justify-center flex-grow-0 flex-shrink-0 flex-col relative">
       <img
-        className="h-full object-scale-down hover:cursor-pointer hover:scale-110 transition-all z-20"
+        className="h-1/2 object-scale-down hover:cursor-pointer hover:scale-110 transition-all z-20"
         src="/printer.png"
         alt="Printer"
         ref={printerRef}
         onClick={() => copy()}
       ></img>
+      <div className="flex flex-row gap-2 items-start z-30">
+        <button
+          className="bg-red-800 text-white rounded-md px-4 py-2 z-30 active:bg-red-950 transition-all"
+          onClick={() => clear()}
+        >
+          Clear
+        </button>
+        <div className="flex flex-col-reverse">
+          <label htmlFor="copies" className="text-gray-600 opacity-85">
+            Max: 100
+          </label>
+          <input
+            type="number"
+            className="rounded-md focus:outline-none border-black border-2 p-2 w-16 text-center z-30"
+            id="copies"
+            defaultValue={1}
+            max={100}
+            onChange={(e) => handleChange(e)}
+          ></input>
+        </div>
+      </div>
+      <div
+        className={`${
+          error ? "opacity-100" : "opacity-0"
+        } absolute bottom-0 text-red-600 transition-all`}
+      >
+        Please select an image!
+      </div>
     </div>
   );
 }

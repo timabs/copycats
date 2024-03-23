@@ -3,7 +3,7 @@ import { SelectionContext } from "../Context/SelectionContext";
 import ImgUploader from "./ImageUploader";
 import { BlobContext } from "../Context/BlobContext";
 
-export default function Options() {
+export default function Options({ error, setError }) {
   const { selected, setSelected, selectedIndex, setSelectedIndex } =
     useContext(SelectionContext);
   const { setBlob, setBlobURL } = useContext(BlobContext);
@@ -39,6 +39,7 @@ export default function Options() {
   ]);
 
   const handleSelect = (e, index) => {
+    setError(false);
     const selection = e.target.parentNode;
     if (selection === selected && selectedIndex !== 2) {
       setSelected(null);
@@ -50,7 +51,7 @@ export default function Options() {
   };
   return (
     <div className="h-fit flex items-center justify-center z-20">
-      <div className="border-black w-fit h-fit flex justify-center gap-4 pb-8 items-center z-20">
+      <div className="border-black w-fit h-fit flex justify-center gap-4  items-center z-20">
         {options.map((img, index) => (
           <div
             key={index}
