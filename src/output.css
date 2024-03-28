@@ -714,10 +714,6 @@ video {
   text-align: center;
 }
 
-.font-poppins {
-  font-family: Poppins, sans-serif;
-}
-
 .font-pirouette {
   font-family: Pirouette, sans-serif;
 }
@@ -779,7 +775,7 @@ video {
 @font-face {
   font-family: "Pirouette";
 
-  src: url("../public/fonts/Pirouette_Cacahuete.ttf");
+  src: url("../fonts/Pirouette_Cacahuete.ttf");
 }
 
 .hover\:scale-110:hover {
@@ -803,11 +799,6 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:text-7xl {
-    font-size: 4.5rem;
-    line-height: 1;
-  }
-
   .lg\:text-8xl {
     font-size: 6rem;
     line-height: 1;

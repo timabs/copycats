@@ -99,8 +99,19 @@ export default function Printer({ error, setError }) {
     }
   };
   const handleChange = (e) => {
-    console.log(e.target.value);
-    setCopyAmount(e.target.value);
+    let copyNum = e.target.value;
+    const maxCopies = 100;
+    const minCopies = 1;
+    if (copyNum > maxCopies) {
+      copyNum = maxCopies;
+      //for UI
+      e.target.value = maxCopies;
+    }
+    if (copyNum < minCopies) {
+      copyNum = minCopies;
+      e.target.value = minCopies;
+    }
+    setCopyAmount(copyNum);
   };
 
   const clear = () => {
